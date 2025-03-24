@@ -30,6 +30,7 @@
     "keyv": "^5.3.1",
     "lucide-react": "^0.479.0",
     "mongodb": "^6.14.2",
+    "move-agent-kit": "^0.2.0",
     "next": "15.2.2-canary.4",
     "next-themes": "^0.4.4",
     "nodemailer": "^6.10.0",
