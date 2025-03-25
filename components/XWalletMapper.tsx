@@ -15,6 +15,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import SampleTweet from "./SampleTweet";
 import { toast } from "sonner";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useState } from "react";
+import { Clock } from "lucide-react";
 
 const tweetFormSchema = z.object({
   tweetUrl: z
@@ -36,6 +38,7 @@ export function XWalletMapper() {
   } = useForm<FormData>({
     resolver: zodResolver(tweetFormSchema),
   });
+  const [error, setError] = useState("");
   const walletAddress = useWallet().account?.address.toString();
 
   const onSubmit = async (data: FormData) => {
@@ -45,6 +48,9 @@ export function XWalletMapper() {
       );
       return;
     }
+
+    // Reset error state
+    setError("");
 
     try {
       const response = await fetch("/api/tweet/auth", {
@@ -61,14 +67,20 @@ export function XWalletMapper() {
       const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(responseData.error);
+        // Better error handling for various response formats
+        if (typeof responseData.error === "object") {
+          throw new Error(
+            responseData.error.message || JSON.stringify(responseData.error)
+          );
+        }
+        throw new Error(responseData.error || `Error: ${response.status}`);
       }
 
       toast.success(
         "Your wallet address has been successfully verified on Twitter"
       );
     } catch (error) {
-      toast.error(
+      setError(
         error instanceof Error ? error.message : "An unknown error occurred"
       );
     }
@@ -88,7 +100,10 @@ export function XWalletMapper() {
             <AlertDescription>
               <ol className="list-decimal pl-4 space-y-2 ">
                 <li>
-                  Copy your wallet address:{" "} <code className="bg-muted rounded text-xs overflow-hidden text-ellipsis max-w-[200px] inline-block">{walletAddress}</code>
+                  Copy your wallet address:{" "}
+                  <code className="bg-muted rounded text-xs overflow-hidden text-ellipsis max-w-[200px] inline-block">
+                    {walletAddress}
+                  </code>
                 </li>
                 <li>Post a tweet containing your wallet address</li>
                 <li>Copy the tweet URL and paste it below</li>
@@ -109,6 +124,19 @@ export function XWalletMapper() {
               timestamp="Just now"
             />
           </div>
+
+          {error && (
+            <div className="flex items-center gap-2 p-4 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded border border-amber-200 dark:border-amber-800 mb-4">
+              <Clock className="h-5 w-5 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Twitter API Rate Limit Reached</p>
+                <p className="text-sm mt-1">
+                  We&apos;re currently processing too many requests. Please try
+                  again in a few minutes.
+                </p>
+              </div>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input

@@ -7,7 +7,7 @@ import { Task } from "@/types/challenge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Loader2, CheckCircle, Clock } from "lucide-react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 const twitterSubmissionSchema = z.object({
@@ -61,7 +61,17 @@ export default function TwitterSubmissionForm({ task }: Props) {
       });
 
       const res = await tweetResponse.json();
-      if (!tweetResponse.ok) throw new Error(res.error);
+
+      if (!tweetResponse.ok) {
+        // Handle rate limiting specifically
+
+        // Better error handling for various response formats
+        if (typeof res.error === "object") {
+          throw new Error(res.error.message || JSON.stringify(res.error));
+        }
+
+        throw new Error(res.error || `Error: ${tweetResponse.status}`);
+      }
 
       setResult(res.result);
     } catch (err) {
@@ -103,11 +113,24 @@ export default function TwitterSubmissionForm({ task }: Props) {
       </form>
 
       {error && (
+        <div className="flex items-center gap-2 p-4 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded border border-amber-200 dark:border-amber-800">
+          <Clock className="h-5 w-5 flex-shrink-0" />
+          <div>
+            <p className="font-medium">Twitter API Rate Limit Reached</p>
+            <p className="text-sm mt-1">
+              We&apos;re currently processing too many requests. Please try
+              again in a few minutes.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* {error && !isRateLimited && (
         <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded">
           <AlertCircle className="h-5 w-5" />
           <p>{error}</p>
         </div>
-      )}
+      )} */}
 
       {result && (
         <div className="space-y-4 p-4 bg-green-50 dark:bg-green-900/30 rounded">

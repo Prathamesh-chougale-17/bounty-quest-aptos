@@ -34,9 +34,13 @@ export function Navbar() {
               <SheetContent side="left" className="w-[280px] sm:w-[350px]">
                 <div className="flex flex-col space-y-6 mt-8">
                   <div className="flex items-center mb-6">
-                    <Link href="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+                    <Link
+                      href="/"
+                      className="flex items-center"
+                      onClick={() => setIsOpen(false)}
+                    >
                       <Image
-                        src={"/solana-logo.png"}
+                        src={"/bounty-quest.png"}
                         width={36}
                         height={36}
                         alt="Logo"
@@ -45,7 +49,7 @@ export function Navbar() {
                       <span className="font-bold text-lg">BountyQuest</span>
                     </Link>
                   </div>
-                  
+
                   {routes.map((route) => (
                     <Link
                       key={route.href}
@@ -64,7 +68,7 @@ export function Navbar() {
               </SheetContent>
             </Sheet>
           </div>
-          
+
           {/* Logo - Visible on all screen sizes */}
           <Link href="/" className="flex items-center">
             <Image
@@ -74,7 +78,9 @@ export function Navbar() {
               alt="Logo"
               className="mr-2"
             />
-            <span className="font-bold text-lg hidden sm:inline">BountyQuest</span>
+            <span className="font-bold text-lg hidden sm:inline">
+              BountyQuest
+            </span>
           </Link>
         </div>
 

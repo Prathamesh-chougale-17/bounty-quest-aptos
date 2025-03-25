@@ -115,7 +115,9 @@ export class TaskGeneratorService {
     taskId: string
   ) {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-pro-exp-02-05" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-pro-exp-02-05",
+    });
 
     // Helper to escape special characters
     const escapeSpecialChars = (str: string) =>
@@ -140,7 +142,7 @@ export class TaskGeneratorService {
     3. **Evaluation Criteria**: ${taskCriteria}
   
     **Goal**: Encourage users to participate in this task. Include the task link in the tweet:
-    https://solana-ai-steel.vercel.app/tasks/${taskId}
+    https://bounty-quest-aptos.vercel.app/tasks/${taskId}
   
     **Format Requirements**:
     - The tweet should have proper formatting with line breaks for readability.
@@ -191,46 +193,48 @@ export class TaskGeneratorService {
     await this.checkTaskStatus();
     return db.collection("tasks").find({ isActive: true }).toArray();
   }
-  
-  public static async getAllTask(): Promise<{
-    _id: ObjectId;
-    title: string;
-    description: string;
-    category: string;
-    requirements: string[];
-    evaluationCriteria: string[];
-    rewards: {
-      usdcAmount: string;
-      nftReward?: string;
-    };
-    startTime: Date;
-    endTime: Date;
-    isActive: boolean;
-    winners?: string[];
-    isWinnerDeclared: boolean;
-  }[]> {
-    try{
-    const client = await clientPromise;
-    const db = client.db("tweetcontest");
-    const tasks = await db.collection("tasks").find({}).toArray();
-    return tasks.map((task) => ({
-      _id: task._id,
-      title: task.title,
-      description: task.description,
-      category: task.category,
-      requirements: task.requirements,
-      evaluationCriteria: task.evaluationCriteria,
-      rewards: task.rewards,
-      startTime: task.startTime,
-      endTime: task.endTime,
-      isActive: task.isActive,
-      winners: task.winners,
-      isWinnerDeclared: task.isWinnerDeclared,
-    }));
-  } catch (error) {
-    console.error("Error getting all tasks:", error);
-    return [];
-  }
+
+  public static async getAllTask(): Promise<
+    {
+      _id: ObjectId;
+      title: string;
+      description: string;
+      category: string;
+      requirements: string[];
+      evaluationCriteria: string[];
+      rewards: {
+        usdcAmount: string;
+        nftReward?: string;
+      };
+      startTime: Date;
+      endTime: Date;
+      isActive: boolean;
+      winners?: string[];
+      isWinnerDeclared: boolean;
+    }[]
+  > {
+    try {
+      const client = await clientPromise;
+      const db = client.db("tweetcontest");
+      const tasks = await db.collection("tasks").find({}).toArray();
+      return tasks.map((task) => ({
+        _id: task._id,
+        title: task.title,
+        description: task.description,
+        category: task.category,
+        requirements: task.requirements,
+        evaluationCriteria: task.evaluationCriteria,
+        rewards: task.rewards,
+        startTime: task.startTime,
+        endTime: task.endTime,
+        isActive: task.isActive,
+        winners: task.winners,
+        isWinnerDeclared: task.isWinnerDeclared,
+      }));
+    } catch (error) {
+      console.error("Error getting all tasks:", error);
+      return [];
+    }
   }
 
   public static async PostTweetofTask(task: GeneratedTask, taskId: string) {

@@ -169,12 +169,12 @@ const AboutPage: React.FC = () => {
           icon={<Palette size={24} className="text-primary" />}
         >
           <p className="mb-4">
-            The approach involves building a decentralized platform on the
-            Solana blockchain that enables users to participate in Web3
-            challenges and earn rewards in USDC-SPL tokens. AI agents will be
-            used for task allocation, submission moderation, and personalized
-            engagement to ensure fairness and efficiency. Gamification elements
-            like leaderboards, badges, and referral bonuses will incentivize
+            The approach involves building a decentralized platform on the Aptos
+            blockchain that enables users to participate in Web3 challenges and
+            earn rewards in USDC-SPL tokens. AI agents will be used for task
+            allocation, submission moderation, and personalized engagement to
+            ensure fairness and efficiency. Gamification elements like
+            leaderboards, badges, and referral bonuses will incentivize
             participation and skill development. The platform will also utilize
             decentralized storage for submissions and integrate seamless wallet
             connections for reward distribution and user interaction.
@@ -187,7 +187,7 @@ const AboutPage: React.FC = () => {
         >
           <p className="mb-4">
             The vision of this project is to create a decentralized platform on
-            the Solana blockchain that engages users in Web3-related challenges,
+            the Aptos blockchain that engages users in Web3-related challenges,
             incentivizing participation through rewards in USDC-SPL tokens. It
             aims to leverage AI for task allocation, moderation, and community
             engagement, ensuring fairness and scalability. By integrating

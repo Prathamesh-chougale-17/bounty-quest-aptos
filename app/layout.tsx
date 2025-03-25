@@ -22,7 +22,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Bounty Quest",
-  description: "Created for Solana Hackathon",
+  description: "Created for Aptos Hackathon",
 };
 
 export default function RootLayout({
