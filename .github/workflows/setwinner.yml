@@ -1,4 +1,4 @@
-name: Create Task
+name: Submit Task
 
 on:
   schedule:

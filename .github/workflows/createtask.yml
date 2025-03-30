@@ -17,4 +17,4 @@ jobs:
           curl -X POST ${{ secrets.CREATE_TASK_API }} \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer ${{ secrets.AUTHENTICATION_TOKEN }}" \
-          -d '{"durationHours": 21}'
+          -d '{"durationHours": 24}'
